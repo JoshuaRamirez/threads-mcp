@@ -107,14 +107,14 @@ export class ThreadsClient {
       }
       if (filter.tags && filter.tags.length > 0) {
         threads = threads.filter(t =>
-          filter.tags!.some(tag => t.tags.includes(tag))
+          filter.tags!.some(tag => (t.tags || []).includes(tag))
         );
       }
       if (filter.search) {
         const search = filter.search.toLowerCase();
         threads = threads.filter(t =>
           t.name.toLowerCase().includes(search) ||
-          t.description.toLowerCase().includes(search)
+          (t.description || '').toLowerCase().includes(search)
         );
       }
     }
@@ -283,14 +283,14 @@ export class ThreadsClient {
       }
       if (filter.tags && filter.tags.length > 0) {
         containers = containers.filter(c =>
-          filter.tags!.some(tag => c.tags.includes(tag))
+          filter.tags!.some(tag => (c.tags || []).includes(tag))
         );
       }
       if (filter.search) {
         const search = filter.search.toLowerCase();
         containers = containers.filter(c =>
           c.name.toLowerCase().includes(search) ||
-          c.description.toLowerCase().includes(search)
+          (c.description || '').toLowerCase().includes(search)
         );
       }
     }
@@ -542,14 +542,14 @@ export class ThreadsClient {
 
     const matchingThreads = data.threads.filter(t =>
       t.name.toLowerCase().includes(lower) ||
-      t.description.toLowerCase().includes(lower) ||
-      t.tags.some(tag => tag.toLowerCase().includes(lower))
+      (t.description || '').toLowerCase().includes(lower) ||
+      (t.tags || []).some(tag => tag.toLowerCase().includes(lower))
     );
 
     const matchingContainers = data.containers.filter(c =>
       c.name.toLowerCase().includes(lower) ||
-      c.description.toLowerCase().includes(lower) ||
-      c.tags.some(tag => tag.toLowerCase().includes(lower))
+      (c.description || '').toLowerCase().includes(lower) ||
+      (c.tags || []).some(tag => tag.toLowerCase().includes(lower))
     );
 
     return [...matchingContainers, ...matchingThreads];
