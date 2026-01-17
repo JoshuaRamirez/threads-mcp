@@ -44,6 +44,19 @@ function migrateData(data: ThreadsData): ThreadsData {
   if (!data.containers) {
     data.containers = [];
   }
+
+  // Normalize threads: ensure tags and description are never undefined
+  for (const thread of data.threads) {
+    if (thread.tags === undefined) thread.tags = [];
+    if (thread.description === undefined) thread.description = '';
+  }
+
+  // Normalize containers: ensure tags and description are never undefined
+  for (const container of data.containers) {
+    if (container.tags === undefined) container.tags = [];
+    if (container.description === undefined) container.description = '';
+  }
+
   return data;
 }
 
